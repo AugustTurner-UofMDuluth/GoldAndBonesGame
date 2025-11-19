@@ -36,21 +36,35 @@ def menu():
             print("Choose a valid number")
 
 def instructions():
-    print("When '>...' is displayed, press the command of your choice.")
-    print("'s' = search"
-          "\n'w' = walk"
-          "\n 'm' = map"
-          "\n'z' = instructions")
+    print("The goal of the game is to explore the island and collect all the treasure.")
+    print("Here are the available commands")
+    print("1. Play/resume game.")
+    print("2. Save game.")
+    print("3. Load game.")
+    print("m: View the map.")
+    print("s: Search the area for loot.")
+    print("w: Walk to another location.")
+    print("z: View the instructions again.")
+    print("0: Exit game.")
 def load_game():
-
+    filename = input("Please enter save file name").strip()
+    try:
+        open(f"TreasureAndBonesSave{filename}.txt", 'r')
+    except FileNotFoundError:
+        print("No existing save file found.")
 def save_game():
-
+    filename = input("Please enter save file name").strip()
+    open(f"TreasureAndBonesSave{filename}.txt", 'w')
 def view_map():
-
+    print("Add me later") #TODO: Add map function
 def play_game():
-
+    ship()
 def end_game():
-
+    catch = input("Would you like to save your progress? y/n").strip().lower()
+    if catch == 'y':
+        save_game()
+    quit()
+    
 
 
 # item/room functions
@@ -71,9 +85,9 @@ def ship():  # ship function
             elif command == "w":  # moves player off ship
                 south_beach()
             elif command == "z":
-            # instructions() # displays instructions
+                instructions() # displays instructions
             elif command == "m":
-            # map() # displays map
+                map() # displays map
             else:
                 print("Choose a valid command.")  # if player chooses anything else
 
@@ -160,9 +174,9 @@ def cave_entrance():
                     print("> Maybe I can find something in the jungle.")
                     # west_jungle()
             elif command == "z":
-            # instructions()  # displays instructions
+                instructions()  # displays instructions
             elif command == "m":
-            # map()  # displays map
+                map()  # displays map
             else:
                 print("Choose a valid command.")
 
@@ -171,6 +185,7 @@ def cave_entrance():
 
     def c_entrance_map(): # displays map
        #draw
+       print("Did no-one make a map of the cave entrance?")
 
 def cave_interior():
     def c_int_menu():
@@ -203,11 +218,11 @@ def cave_interior():
                     print("> I have already searched through this area.")
 
             elif command == "w":
-                #cave_entrance() #exits cave
+                cave_entrance() #exits cave
             elif command == "z":
-            # instructions()  #displays instructions
+                instructions()  #displays instructions
             elif command == "m":
-            # map()  #displays map
+                map()  #displays map
             else:
                 print("Choose a valid command.")
 
@@ -215,7 +230,10 @@ def cave_interior():
         print("You enter the cave and the darkness is overwhelming. \nYou light the torch you found from the hut and soon realize the sword you picked up will come in handy. \nSkeletons stand before you, swords in hand.")
 
     def c_int_map(): #displays cave interior map
-        #draw
+        print("Why did no-one make these?")
+    c_int_description()
+    c_int_map()
+    c_int_menu()
 
 def north_beach():
     def nb_menu():
@@ -224,12 +242,13 @@ def north_beach():
             if command == "s": #if user chooses to search
                 print("The treasure is right in front of you, but something is guarding it.")
             elif command == "w":  #when player walks forward they have to fight the monster and the game ends
+                print("TODO: make final fight") #TODO: make final fight
                 #monster/fight function
                 #end game function
             elif command == "z":
-            # instructions()   #to view instructions
+                instructions()   #to view instructions
             elif command == "m":
-            # map()    # to view map
+                map()    # to view map
             else:
                 print("Choose a valid command.")
 
@@ -270,11 +289,11 @@ def south_beach():
                     else:
                         print("> I decide to leave the coins.")  #if they dont want coins
             elif command == "w":
-                #west jungle()  # next place to walk to
+                west_jungle()  # next place to walk to
             elif command == "z":
-            # instructions()  #to open instructions
+                instructions()  #to open instructions
             elif command == "m":
-            # map()  # to view map
+                map()  # to view map
             else:
                 print("Choose a valid command.")
 
@@ -518,7 +537,7 @@ def jungle_hut():
                 print("w: Proceed to the next location.")
                 print("z: Viewing the instructions. Since you are reading this you know how to do this.")
             elif command == "m":
-            # Is this the area or the world map?
+                map()
             else:
                 print("Choose a valid command.")
 
