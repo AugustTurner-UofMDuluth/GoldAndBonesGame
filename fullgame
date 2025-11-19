@@ -1,0 +1,735 @@
+import turtle
+t = turtle.Turtle()
+
+#Game Code
+#game set up
+inventory = []
+score = 0
+
+#menu function
+def menu():
+    while True:
+        print("---Game Title---")
+        print("1. Instructions")
+        print("2. Play Game")
+        print("3. Load Game")
+        print("4. Save Game")
+        print("5. View Map")
+        print("6. Exit Game")
+
+        choice = int(input("Please press 1, 2, 3, 4, 5, or 6"))
+
+        if choice == 1:
+            instructions()
+        elif choice == 2:
+            play_game()
+        elif choice == 3:
+            load_game()
+        elif choice == 4:
+            save_game()
+        elif choice == 5:
+            view_map()
+        elif choice == 6:
+            print("Until next time!")
+            break
+        else:
+            print("Choose a valid number")
+
+def instructions():
+    print("When '>...' is displayed, press the command of your choice.")
+    print("'s' = search"
+          "\n'w' = walk"
+          "\n 'm' = map"
+          "\n'z' = instructions")
+def load_game():
+
+def save_game():
+
+def view_map():
+
+def play_game():
+
+def end_game():
+
+
+
+# item/room functions
+
+def ship():  # ship function
+    def ship_menu():
+        print("Press 'z' for instructions. What would you like to do?")  # Gives user instuctions/guide just once
+        while True:  # loops to keep asking user for input
+            command = input(">...".strip())  # user input
+            if command == "s":  # if search
+                print("The sword from your long journey is leaned up against a wooden barrel. It will come in handy.")
+                command = input("Take or leave Heirloom Sword?('y' or 'n'?".strip())  # asks if player wants sword
+                if command == "y":  # if yes
+                    inventory.append("Heirloom Sword")  # adds sword to inventory
+                    print("-Heirloom Sword- \n A dull and old sword covered in spider webs")
+                else:  # no
+                    print("> I decide to leave the sword.")
+            elif command == "w":  # moves player off ship
+                south_beach()
+            elif command == "z":
+            # instructions() # displays instructions
+            elif command == "m":
+            # map() # displays map
+            else:
+                print("Choose a valid command.")  # if player chooses anything else
+
+    def ship_description():
+        print("You are on your small ship all alone."
+              " \nYou are the only one who has made it through the treacherous journey of finding the lost treasure. \n"
+              "This island is the last stop, and you are not giving up now. \n"
+              "Your ship is beaten and battered; it won't make it much longer. Your sails are weathered, and the ropes are fraying. This will be the ship’s last destination.")
+
+    def ship_map():  # displays map
+        t.speed(0)
+
+        # Draw the hull
+        t.color("saddlebrown")
+        t.begin_fill()
+        t.forward(100)
+        t.right(90)
+        t.forward(30)
+        t.right(45)
+        t.forward(70)
+        t.right(90)
+        t.forward(70)
+        t.right(45)
+        t.forward(30)
+        t.right(90)
+        t.end_fill()
+
+        # Move to mast position
+        t.penup()
+        t.goto(50, 0)
+        t.pendown()
+
+        # Draw mast
+        t.color("black")
+        t.begin_fill()
+        t.left(90)
+        t.forward(100)
+        t.right(90)
+        t.forward(5)
+        t.right(90)
+        t.forward(100)
+        t.end_fill()
+
+        # Draw sail
+        t.penup()
+        t.goto(55, 100)
+        t.pendown()
+
+        t.color("lightgray")
+        t.begin_fill()
+        t.right(150)
+        t.forward(80)
+        t.right(120)
+        t.forward(80)
+        t.end_fill()
+
+        t.hideturtle()
+        turtle.done()
+
+def cave_entrance():
+
+    def c_entrance_menu():
+        while True: #loops to keep asking user for input
+            command = input(">...".strip()) # user input
+            if command == "s": #if search
+                if "Cave Entrance Coins" not in inventory: #checks if coins in area have been collected
+                    print("A few gold coins scatter the ground.") #description
+                    command = input("Collect coins('y' or 'n')?".strip())  #asks user to collect items
+                    if command == "y": #if yes
+                        inventory.append("Cave Entrance Coins.") #add coins to inventory
+                        print("You picked up 10 coins.")
+                        score += 10 #adds score
+                        print(f"Score = {score}") #displays new score
+                    else: #if no
+                        print("> I decide to leave the coins.")
+                else:# if coins have been collected
+                    print("> I have already searched through this area.")
+
+            elif command == "w": #if walk
+                if "Magic Sword" in inventory: # checks if player has weapon needed for cave
+                    cave_interior()
+                else: #if not
+                    print("You are facing a dark cave. \nSounds of rattling skeleton bones echo from within. \nYou shouldn't enter the cave without a better weapon.")
+                    print("> Maybe I can find something in the jungle.")
+                    # west_jungle()
+            elif command == "z":
+            # instructions()  # displays instructions
+            elif command == "m":
+            # map()  # displays map
+            else:
+                print("Choose a valid command.")
+
+    def c_entrance_description():
+        print("You have entered a rockier section of jungle, with steep cliffs covered in vines.")
+
+    def c_entrance_map(): # displays map
+       #draw
+
+def cave_interior():
+    def c_int_menu():
+        # skeleton/fight function
+        while True: #loops to ask user for input
+            command = input("> ...".strip())
+            if command == "s": #if player chooses to search
+                if "Golden Necklace" not in inventory: #checks if item isn't in inventory
+                    print("The skeleton before you lies still. \nA beautiful necklace glistens under the torchlight.")
+                    command = input("Take Golden Necklace?('y' or 'n')?".strip())
+                    if command == "y": # if user takes item
+                        inventory.append("Golden Necklace") #adds to inventory
+                        print("-Golden Necklace- \n A dull and old sword covered in spider webs")
+                    else:
+                        print("> I decide to leave the necklace.")# if no
+                        break
+                elif "Golden Necklace" in inventory and "Jewels" not in inventory: #checks if user has necklace already but not jewels
+                    print(
+                        "A box of jewels and gold coins sit at the back of the cave. The skeletons were guarding it. ")
+                    command = input("Take items?('y' or 'n')?".strip())
+                    if command == "y": # if yes
+                        inventory.append("Jewels") # add to inventory
+                        print("-Jewels- \n A box with shining jewels.")
+                        score += 40 #add coins to score
+                        print(f"Score = {score}") #displays user new score
+                    else: #if no
+                        print("> I decide to leave the chest.")
+                        break
+                else: #if player has both items
+                    print("> I have already searched through this area.")
+
+            elif command == "w":
+                #cave_entrance() #exits cave
+            elif command == "z":
+            # instructions()  #displays instructions
+            elif command == "m":
+            # map()  #displays map
+            else:
+                print("Choose a valid command.")
+
+    def c_int_description():
+        print("You enter the cave and the darkness is overwhelming. \nYou light the torch you found from the hut and soon realize the sword you picked up will come in handy. \nSkeletons stand before you, swords in hand.")
+
+    def c_int_map(): #displays cave interior map
+        #draw
+
+def north_beach():
+    def nb_menu():
+        while True: #loop to keep asking user for input
+            command = input(">...".strip())
+            if command == "s": #if user chooses to search
+                print("The treasure is right in front of you, but something is guarding it.")
+            elif command == "w":  #when player walks forward they have to fight the monster and the game ends
+                #monster/fight function
+                #end game function
+            elif command == "z":
+            # instructions()   #to view instructions
+            elif command == "m":
+            # map()    # to view map
+            else:
+                print("Choose a valid command.")
+
+    def nb_description():
+        print("You have explored most of the island. \n"
+              "The last of it awaits; the final treasure must be in the area. \n"
+              "In front of you, there is a lonely tree, just like the one on the treasure map. ")
+
+    def nb_map():  # displays north beach map
+        import turtle as t
+        import random
+
+        t.speed(0)
+        t.color("forestgreen")
+        t.begin_fill()
+
+        for i in range(100):
+            t.forward(random.randint(2, 10))
+            t.left(random.randint(-10, 15))
+
+        t.end_fill()
+        t.hideturtle()
+        t.done()
+
+def south_beach():
+    def sb_menu():
+        while True: #loop to keep asking user for input
+            command = input(">...".strip()) #user input
+            if command == "s": #if user chooses to search
+                if "South Beach Coins" not in  inventory: # checks if player has been in the area
+                    print("Gold coins shimmer in the sunlight, slightly covered by sand.") #prints description
+                    command = input("Collect Gold Coins?('y' or 'n'?".strip())#asks player if they want to collect item
+                    if command == "y": #if yes
+                        inventory.append("South Beach Coins") #adds coins of the area to inventory to check later
+                        print("-Gold Coin- \nA shiny coin, with some sort of emblem on the front. ")
+                        score += 20  #adds coins to score
+                        print(f"Score = {score}")  #tells player new score
+                    else:
+                        print("> I decide to leave the coins.")  #if they dont want coins
+            elif command == "w":
+                #west jungle()  # next place to walk to
+            elif command == "z":
+            # instructions()  #to open instructions
+            elif command == "m":
+            # map()  # to view map
+            else:
+                print("Choose a valid command.")
+
+    def sb_description():
+        print(
+            "You stumble onto the island from your ship, taking in your surroundings. \nThe beach is bright and sandy. There is a lush green jungle in front of you. \nTo your right, you see a small mountain. \nTo your left, a path curves deep into the jungle.")
+
+    def sb_map(): #displays south beach map
+        # ocean
+        t.penup()
+        t.goto(-300, 250)
+        t.color("blue")
+        t.begin_fill()
+        t.setheading(0)
+        t.forward(600)
+        t.left(90)
+        t.forward(50)
+        t.left(90)
+        t.forward(600)
+        t.end_fill()
+        # boat
+        t.penup()
+        t.goto(-50, 300)
+        t.color("brown4")
+        t.begin_fill()
+        t.setheading(270)
+        t.forward(100)
+        t.left(45)
+        t.forward(70.71)
+        t.left(90)
+        t.forward(70.71)
+        t.left(45)
+        t.forward(100)
+        t.left(90)
+        t.forward(70.71)
+        t.end_fill()
+        # jungle back
+        t.penup()
+        t.goto(-300, -300)
+        t.color("darkgreen")
+        t.begin_fill()
+        t.right(180)
+        t.circle(600, extent=90)
+        t.setheading(270)
+        t.forward(600)
+        t.end_fill()
+        # jungle path
+        t.goto(300, -30)
+        t.color("chocolate3")
+        t.begin_fill()
+        t.setheading(180)
+        t.forward(100)
+        t.right(90)
+        t.forward(20)
+        t.right(90)
+        t.forward(100)
+        t.end_fill()
+        # mountain
+        t.goto(-300, 0)
+        t.color("grey")
+        t.begin_fill()
+        t.setheading(285)
+        t.forward(519.615)
+        t.setheading(180)
+        t.forward(150)
+        t.end_fill()
+        # trees
+        t.penup()
+        t.goto(-150, -250)
+        tree()
+        t.goto(200, -260)
+        tree()
+        t.goto(300, -240)
+        tree()
+        t.goto(300, 60)
+        tree()
+        t.goto(270, -100)
+        tree()
+        t.goto(0, -230)
+        tree()
+        t.goto(50, -250)
+        tree()
+        t.goto(120, -230)
+        tree()
+        t.goto(180, -195)
+        tree()
+        t.goto(243, -207)
+        tree()
+        t.goto(220, -145)
+        tree()
+        t.goto(75, -190)
+        tree()
+        t.goto(135, -150)
+        tree()
+
+        # print labels
+        t.color("black")
+        t.goto(0, 200)
+        t.write("Laughing Skull", align="center", font=("Arial", 14, "bold"))
+        t.goto(200, 0)
+        t.write("Jungle Path", align="center", font=("Arial", 14, "bold"))
+        t.goto(-200, -100)
+        t.write("Cave Entrance", align="center", font=("Arial", 14, "bold"))
+
+        turtle.done()
+
+
+def west_jungle():
+    def w_jungle_menu():
+        while True:
+            command = input("> ...").strip().lower()
+            if command == "s":  # Search area
+                print("You search through the thick vines and underbrush, but the jungle is dense and mysterious.")
+                print("It feels like something could be hidden here, but you can’t quite see it yet.")
+
+            elif command == "w":  # Move forward (to clearing, for example)
+                print("You push through the vines toward a small clearing ahead.")
+                # clearing()  # connect to another location later
+                break
+
+            elif command == "z":  # Instructions
+                print("Commands:")
+                print("s = search the area")
+                print("w = move forward")
+                print("m = view map")
+                print("q = quit area")
+
+            elif command == "m":  # Map
+                w_jungle_map()
+
+            elif command == "q":
+                print("You decide to leave the jungle for now.")
+                break
+
+            else:
+                print("Choose a valid command.")
+
+    def w_jungle_description():
+        print("\nYou stand in front of the jungle, hoping to find a weapon to help conquer the cave.")
+        print("The viney trees are tall and dense; this will not be easy to navigate.")
+        print("To your right, you see a small path leading to a clearing.")
+
+    def w_jungle_map():
+        # Setup
+        screen = turtle.Screen()
+        screen.title("West Jungle Map")
+        t = turtle.Turtle()
+        t.speed(3)
+
+        # Room parameters
+        room_width = 400
+        room_height = 300
+        top_left_x = -200
+        top_left_y = 150
+
+        # Draw jungle area (outer box)
+        t.penup()
+        t.goto(top_left_x, top_left_y)
+        t.pendown()
+        t.fillcolor("forestgreen")
+        t.begin_fill()
+        for _ in range(2):
+            t.forward(room_width)
+            t.right(90)
+            t.forward(room_height)
+            t.right(90)
+        t.end_fill()
+        t.penup()
+
+        # Add description text inside
+        t.goto(top_left_x + room_width / 2, top_left_y - 50)
+        t.pencolor("white")
+        t.write(
+            "You stand in front of the jungle, hoping to find a weapon to help conquer the cave.\n"
+            "The viney trees are tall and dense; this will not be easy to navigate.\n"
+            "To your right, you see a small path leading to a clearing.",
+            align="center",
+            font=("Arial", 10, "bold")
+        )
+
+        # Add path to clearing
+        t.goto(top_left_x + 300, top_left_y - 200)
+        t.pendown()
+        t.pencolor("tan")
+        t.pensize(5)
+        t.forward(60)
+        t.penup()
+        t.goto(top_left_x + 330, top_left_y - 210)
+        t.pencolor("white")
+        t.write("Path to Clearing →", align="center", font=("Arial", 10, "bold"))
+
+        # Add a few tree shapes (simple triangles)
+        t.pencolor("darkgreen")
+        t.fillcolor("darkgreen")
+        for tree_x in [-150, -50, 50, 150]:
+            t.goto(tree_x, top_left_y - 250)
+            t.setheading(60)
+            t.begin_fill()
+            for _ in range(3):
+                t.forward(50)
+                t.right(120)
+            t.end_fill()
+
+        t.hideturtle()
+        turtle.done()
+
+def jungle_hut():
+    def HutMenu():
+        while True:  # loop to keep asking user for input
+            command = input(">...".strip())
+            if command == "s":  # if user chooses to search
+                if "Magic Sword" not in inventory:
+                    print("An old body rests upon the bed. Vivid red flowers cover its eyes,"
+                          "and a fine sword rests in its hands.")
+                    command = input("Collect sword? y/n").strip()  # do you take the sword?
+                    if command == "y":
+                        print("You walk over to the bed and carefully remove the sword from the body's arms.")
+                        newSword()
+                        inventory.append("Magic Sword")
+                    else:
+                        print("You decide to leave the sword.")
+                if "Jungle Hut Coins" not in inventory:
+                    print("Some rummaging through the clutter reveals a pouch of coins.")
+                    command = input("Collect coins? y/n").strip()  # do you take the ring?
+                    if command == "y":
+                        inventory.append("Jungle Hut Coins")  # treasure check later
+                        score += 5
+                        print(f'Score = {score}')
+                    else:
+                        print("You leave the coins.")
+                else:
+                    print("You already searched this area.")
+            elif command == "b":
+                west_jungle()
+            elif command == "w":
+                cave_entrance()
+            elif command == "z":
+                print("Here are the instructions.")
+                print("b: Go back to the Western Jungle.")
+                print("s: Search the area for loot.")
+                print("w: Proceed to the next location.")
+                print("z: Viewing the instructions. Since you are reading this you know how to do this.")
+            elif command == "m":
+            # Is this the area or the world map?
+            else:
+                print("Choose a valid command.")
+
+    def HutDrawer():  # I didn't know if I could keep the file separate
+        screen = turtle.Screen()
+        screen.setup(400, 400)
+
+        def jump(o, x, y):
+            o.penup()
+            o.goto(x, y)
+            o.pendown()
+
+        def rect(turt, length, height, left, color=""):
+            o = turt
+            o.pendown()
+            if color != "":
+                if color == "foliage":
+                    o.fillcolor(randColor())
+                else:
+                    o.fillcolor(color)
+                o.begin_fill()
+            for i in range(2):
+                o.forward(length)
+                if left == True:
+                    o.left(90)
+                else:
+                    o.right(90)
+                o.forward(height)
+                if left == True:
+                    o.left(90)
+                else:
+                    o.right(90)
+            if color != "":
+                o.end_fill()
+            o.penup()
+
+        def stackJoint(o, width):  # got this from Google:
+            o.pendown()
+            o.pensize(2)
+            o.forward(width)
+            o.backward(width)
+            o.pensize(1)
+            o.penup()
+
+        def stack(o, x, y, count, partlength, width, color, natural):  # got this from Google:
+            o.penup()
+            o.goto(x, y)
+            for i in range(count):
+                o.setheading(90)
+                rect(o, partlength, width, False, color)
+                o.forward(partlength)
+                o.setheading(0)
+                stackJoint(o, width)
+                if natural:
+                    g = random.randint(-2, 2)
+                    o.forward(g)
+
+        def leaf(t, cenx, ceny):
+            jump(t, cenx + 60, ceny - 20)
+            t.begin_fill()
+            t.fillcolor("ForestGreen")
+            t.setheading(85)
+            t.circle(50, 190)
+            t.end_fill()
+
+        def randColor():
+            check = random.randint(1, 4)
+            if check == 1:
+                res = "sienna4"
+            elif check == 2:
+                res = "DarkGreen"
+            elif check == 3:
+                res = "tan4"
+            else:
+                res = "ForestGreen"
+            return res
+
+        t = turtle.Turtle()
+        jump(t, -200, -200)
+        rect(t, 400, 134, True, "OliveDrab4")
+        jump(t, -200, -66)
+        rect(t, 400, 158, True, "sienna4")
+        jump(t, -200, 92)
+        rect(t, 400, 58, True, "DarkGreen")
+        jump(t, -200, 150)
+        rect(t, 400, 50, True, "DeepSkyBlue")
+        jump(t, -150, -70)
+        dense = random.randint(3, 6)
+        for i in range(dense):
+            sparse = True
+            if i != 0:
+                prev = xpos
+            xpos = random.randint(-180, 180)
+            if i != 0:
+                while sparse == False:
+                    if math.fabs(xpos - prev) > 10:
+                        sparse = True
+                    xpos = random.randint(-180, 180)
+            stack(t, xpos, -70, 9, 18, 15, "sienna", True)
+            leaf(t, t.xcor(), t.ycor())
+        jump(t, -50, -80)
+        t.setheading(0)
+        rect(t, 100, 75, True, "sienna")
+        jump(t, 10, -80)
+        rect(t, 20, 60, True, "Black")
+        jump(t, -60, -10)
+        t.setheading(0)
+        t.begin_fill()
+        t.fillcolor("DarkGoldenrod1")
+        t.left(45)
+        t.forward(85)
+        t.right(90)
+        t.forward(85)
+        t.end_fill()
+        turtle.done()
+
+    def HutDescriptor():
+        print("You reach the clearing and see a run-down hut in the distance. "
+              "\nYou approach the hut, cautious of what enemies you might encounter."
+              "The interior has a crude bed, table, and chair. Various items are scattered across the room."
+              "\nEverything is covered in a thick layer of dust.")
+
+
+#item functions
+def goldCoin():
+    print("A shiny gold coin lies half-buried in the dirt. "
+          "It gleams even in the dim jungle light — maybe it’s part of a hidden treasure.")
+
+def jewels():
+    print("You find a cluster of glittering jewels tangled in the vines. "
+          "They shimmer in every color — ruby red, emerald green, sapphire blue.")
+
+def goldenNecklace():
+    print("Hanging from a low branch is a golden necklace, "
+          "its chain delicate but strong, and its pendant shaped like a sun.")
+
+
+def heirloomSword():
+   print("This is an heirloom sword, passed down in your family for generations. "
+         "While still a fine cutting tool, it cannot do much against the supernatural.")
+       #TODO: Combat and Cutting
+
+def magicSword():
+   print("This is a magical saber with a golden skull inlaid on the hilt."
+         "It should solve your skeleton problem.")
+
+def skeleton():
+   print("You see five skeletons standing in front of you."
+         "\nThere seems to be some magical force bringing them to life.")
+
+def fight():
+   playerhp=50
+   skelhp=[10,10,10,10,10]
+   skeletonhp=sum(skelhp)
+   skelhep=[1,1,1,1,1]
+   attackdamage=5
+   skeletondamage=1
+   print("You engage the skeletons")
+   play=1
+   while skeletonhp > 0 and playerhp > 0:
+       if play==1:
+           action = input("what will you do?:")
+           if action == "attack":
+               print("you attempt to attack the skeletons")
+               skelnum=int(input("Which skeleton would you like to attack?(1,2,3,4,5):"))-1
+               if skelhp[skelnum]<=0:
+                   print("You cannot attack a dead skeleton")
+               else:
+                   chance=random.randint(1,20)
+                   if chance > 5:
+                       skelhp[skelnum]=skelhp[skelnum]-attackdamage
+                       skelhep=[ item for item in skelhp if item !=0]
+                       print("You attacked the skeleton")
+                       print(skelhp)
+                       play=2
+                   else:
+                       print("You missed.")
+                       play=2
+
+
+           elif action == "defend":
+               print("you attempt to block the skeletons attack")
+               chance = random.randint(1, 20)
+               if chance > 2:
+                   print("you blocked the attack")
+               else:
+                   print("you failed to block the attack")
+                   playerhp = playerhp - skeletondamage
+           elif action == "flee":
+               print("you attempt to flee")
+               chance = random.randint(1, 20)
+               if chance >= 10:
+                   print("you escaped the skeleton")
+               else:
+                   print("The skeleton prevents you from escaping")
+                   play=2
+           else:
+               print("action invalid: repeat input")
+       elif play==2:
+           for i in skelhep:
+               skelchance=random.randint(0,1)
+               if skelchance == 1:
+                   print("A skeleton attacks you")
+                   playerhp = playerhp - skeletondamage
+           print(playerhp)
+           play=1
+
+
+   if playerhp <= 0:
+       print("You have been killed by the skeletons")
+
+
+   if skeletonhp <= 0:
+       print("you have defeated the skeleton")
