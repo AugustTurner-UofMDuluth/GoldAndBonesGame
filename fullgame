@@ -3,9 +3,9 @@ t = turtle.Turtle()
 
 #Game Code
 #game set up
-inventory = []
+inventory = {}
 score = 0
-
+loc = ""
 #menu function
 def menu():
     while True:
@@ -54,7 +54,10 @@ def load_game():
         print("No existing save file found.")
 def save_game():
     filename = input("Please enter save file name").strip()
-    open(f"TreasureAndBonesSave{filename}.txt", 'w')
+    with open(f"TreasureAndBonesSave{filename}.txt", 'w') as fi:
+        text = ""
+        text += loc
+        fi.write(text)
 def view_map():
     print("Add me later") #TODO: Add map function
 def play_game():
@@ -70,6 +73,7 @@ def end_game():
 # item/room functions
 
 def ship():  # ship function
+    loc = "ship"
     def ship_menu():
         print("Press 'z' for instructions. What would you like to do?")  # Gives user instuctions/guide just once
         while True:  # loops to keep asking user for input
