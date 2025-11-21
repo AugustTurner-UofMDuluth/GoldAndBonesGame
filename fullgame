@@ -1,4 +1,5 @@
 import turtle
+import json
 t = turtle.Turtle()
 
 #Game Code
@@ -49,15 +50,16 @@ def instructions():
 def load_game():
     filename = input("Please enter save file name").strip()
     try:
-        open(f"TreasureAndBonesSave{filename}.txt", 'r')
+        with open(f"TreasureAndBonesSave{filename}.json", 'r') as fi:
+            data = json.load(fi)
+            setLoc({data['location']})
     except FileNotFoundError:
         print("No existing save file found.")
 def save_game():
     filename = input("Please enter save file name").strip()
-    with open(f"TreasureAndBonesSave{filename}.txt", 'w') as fi:
-        text = ""
-        text += loc
-        fi.write(text)
+    with open(f"TreasureAndBonesSave{filename}.json", 'w') as fi:
+        data = {"location": loc}
+        json.dump(data, fi, indent=4)
 def view_map():
     print("Add me later") #TODO: Add map function
 def play_game():
@@ -68,7 +70,13 @@ def end_game():
         save_game()
     quit()
     
-
+#Location functions
+def setLoc(dest):
+    l = dest
+    global loc 
+    loc = dest
+    if l =="ship":
+        ship()
 
 # item/room functions
 
@@ -152,7 +160,7 @@ def ship():  # ship function
         turtle.done()
 
 def cave_entrance():
-
+    loc = "cave_entrance"
     def c_entrance_menu():
         while True: #loops to keep asking user for input
             command = input(">...".strip()) # user input
@@ -192,6 +200,7 @@ def cave_entrance():
        print("Did no-one make a map of the cave entrance?")
 
 def cave_interior():
+    loc = "cave_interior"
     def c_int_menu():
         # skeleton/fight function
         while True: #loops to ask user for input
