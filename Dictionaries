@@ -1,0 +1,25 @@
+loc_dict={"ship":"You are on your small ship all alone."
+              " \nYou are the only one who has made it through the treacherous journey of finding the lost treasure. \n"
+              "This island is the last stop, and you are not giving up now. \n"
+              "Your ship is beaten and battered; it won't make it much longer. Your sails are weathered, and the ropes are fraying. This will be the ship’s last destination.",
+          "cave entrance":"You have entered a rockier section of jungle, with steep cliffs covered in vines.",
+          "cave interior":"You enter the cave and the darkness is overwhelming. \nYou light the torch you found from the hut and soon realize the sword you picked up will come in handy. \nSkeletons stand before you, swords in hand.",
+          "north beach":"You have explored most of the island. \n"
+              "The last of it awaits; the final treasure must be in the area. \n"
+              "In front of you, there is a lonely tree, just like the one on the treasure map. ",
+          "south beach":"You stumble onto the island from your ship, taking in your surroundings. \nThe beach is bright and sandy. There is a lush green jungle in front of you. \nTo your right, you see a small mountain. \nTo your left, a path curves deep into the jungle.",
+          "west jungle":"\nYou stand in front of the jungle, hoping to find a weapon to help conquer the cave.\nThe viney trees are tall and dense; this will not be easy to navigate.\nTo your right, you see a small path leading to a clearing.",
+          "jungle hut":"You reach the clearing and see a run-down hut in the distance. "
+              "\nYou approach the hut, cautious of what enemies you might encounter."
+              "The interior has a crude bed, table, and chair. Various items are scattered across the room."
+              "\nEverything is covered in a thick layer of dust.",}
+inventorydict={"sword":"none","jewels":False,"necklace":False,"coin":False}
+itemdescriptdict={"old sword":"This is an heirloom sword, passed down in your family for generations.\nWhile still a fine cutting tool, it cannot do much against the supernatural.",
+                  "new sword":"This is a magical saber with a golden skull inlaid on the hilt.\nIt should solve your skeleton problem.",
+                  "coin":"A shiny gold coin lies half-buried in the dirt.\nIt gleams even in the dim jungle light — maybe it’s part of a hidden treasure.",
+                  "jewels":"You find a cluster of glittering jewels tangled in the vines.\nThey shimmer in every color — ruby red, emerald green, sapphire blue.",
+                  "necklace":"Hanging from a low branch is a golden necklace,\nits chain delicate but strong, and its pendant shaped like a sun.",
+                  "skeleton":"You see five skeletons standing in front of you.\nThere seems to be some magical force bringing them to life."}
+while True:
+    loc=input("enter your location: ")
+    print(loc_dict[loc])
