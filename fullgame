@@ -938,6 +938,11 @@ def magicSword():
    print("This is a magical saber with a golden skull inlaid on the hilt."
          "It should solve your skeleton problem.")
 
+def treasureMap():
+    print("You uncover an old, weathered treasure map, its edges frayed and ink faded. "
+          "A winding path leads through the jungle, marked with cryptic symbols and a bold X,  the promise of hidden riches awaits.")
+
+
 def skeleton():
    print("You see five skeletons standing in front of you."
          "\nThere seems to be some magical force bringing them to life.")
