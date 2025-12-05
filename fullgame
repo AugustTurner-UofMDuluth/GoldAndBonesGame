@@ -56,7 +56,89 @@ def save_game():
     filename = input("Please enter save file name").strip()
     open(f"TreasureAndBonesSave{filename}.txt", 'w')
 def view_map():
-    print("Add me later") #TODO: Add map function
+    t.screen.bgcolor("lightblue")
+    t.speed(0)
+    t.pencolor("cornsilk")
+    t.goto(0,-230)
+    t.fillcolor("cornsilk")
+
+    t.begin_fill()
+    t.circle(230)
+    t.end_fill()
+
+    t.goto(0, -200)
+    t.fillcolor("forestgreen")
+    t.begin_fill()
+    t.circle(200, steps=100)
+    t.end_fill()
+
+    t.penup()
+    t.goto(-5, -233)
+    t.pendown()
+    t.fillcolor("brown")
+    t.begin_fill()
+    for _ in range (2):
+        t.forward(30)
+        t.right(90)
+        t.forward(60)
+        t.right(90)
+    t.end_fill()
+    t.write("Ship", font=("Arial", 9, "normal"))
+
+
+    t.penup()
+    t.goto(-100, -110)
+    t.pendown()
+    t.fillcolor("darkgreen")
+    t.begin_fill()
+    t.circle(120)
+    t.end_fill()
+    t.penup()
+    t.goto(-100, -50)
+    t.pencolor("black")
+    t.write("West Jungle", font=("Arial", 12, "bold"))
+
+    t.penup()
+    t.goto(100, -160)
+    t.pendown()
+    t.fillcolor("green")
+    t.begin_fill()
+    t.circle(85)
+    t.end_fill()
+    t.penup()
+    t.goto(100, -90)
+    t.pendown()
+    t.fillcolor("darkgray")
+    t.begin_fill()
+    t.circle(20)
+    t.end_fill()
+    t.write("Cave", font=("Arial", 12, "bold"))
+
+    t.penup()
+    t.goto(-80, 195)
+    t.pendown()
+    t.width(3)
+    t.right(70)
+    t.forward(20)
+
+    t.penup()
+    t.goto(-72, 195)
+    t.pendown()
+    t.right(50)
+    t.forward(20)
+
+    t.penup()
+    t.goto(-65, 185)
+    t.pendown()
+    t.write("North Beach", font=("Arial", 12, "bold"))
+
+    t.penup()
+    t.goto(0, -220)
+    t.pendown()
+    t.write("South Beach", font=("Arial", 12, "bold"))
+
+    turtle.done()
+
 def play_game():
     ship()
 def end_game():
@@ -184,8 +266,72 @@ def cave_entrance():
         print("You have entered a rockier section of jungle, with steep cliffs covered in vines.")
 
     def c_entrance_map(): # displays map
-       #draw
-       print("Did no-one make a map of the cave entrance?")
+        t.speed(0)
+        t.screen.bgcolor("darkgray")
+        t.penup()
+        t.goto(-250, 0)
+        t.pendown()
+        t.fillcolor("black")
+        t.begin_fill()
+        t.forward(500)
+        t.left(100)
+        for _ in range(9):
+            t.forward(90)
+            t.left(20)
+            t.goto(-250, 0)
+        t.end_fill()
+
+        t.home()
+        t.goto(375, 0)
+        t.fillcolor("darkgreen")
+        t.begin_fill()
+        t.right(90)    
+        t.forward(375)
+        t.right(90)
+        t.forward(755)
+        t.right(90)
+        t.forward(375)
+        t.right(90)
+        t.forward(755)
+        t.end_fill()
+
+        def large_bush():
+            t.fillcolor("darkgreen")
+            t.begin_fill()
+            t.circle(50)
+            t.end_fill()
+
+        def small_bush():
+            t.fillcolor("darkgreen")
+            t.begin_fill()
+            t.circle(30)
+            t.end_fill()
+
+        t.pencolor("darkgreen")
+        t.goto(-250, -15)
+        large_bush()
+        t.goto(-295, -10)
+        small_bush()
+        t.goto(250, -15)
+        large_bush()
+        t.goto(295, -10)
+        small_bush()
+
+
+        t.home()
+        t.pencolor("black")
+        t.fillcolor("sienna")
+        t.begin_fill()
+        t.forward(100)
+        t.right(70)
+        t.forward(370)
+        t.right(110)
+        t.forward(450)
+        t.right(110)
+        t.forward(370)
+        t.goto(100, 0)
+        t.end_fill()
+        turtle.done()
 
 def cave_interior():
     def c_int_menu():
@@ -230,7 +376,115 @@ def cave_interior():
         print("You enter the cave and the darkness is overwhelming. \nYou light the torch you found from the hut and soon realize the sword you picked up will come in handy. \nSkeletons stand before you, swords in hand.")
 
     def c_int_map(): #displays cave interior map
-        print("Why did no-one make these?")
+        screen = turtle.Screen()
+        screen.title("Dark Cave Interior")
+        t.speed(0)
+        t.screen.bgcolor("gray20")
+
+        def skeleton():
+            t.width(5)
+            t.pencolor("gray")
+            t.penup()
+            t.goto(50, 100)
+            t.pendown()
+            t.circle(40)
+            t.right(90)
+            t.forward(200)
+            t.goto(50, 80)
+            t.right(30)
+            t.forward(80)
+            t.penup()
+            t.goto(50,80)
+            t.pendown()
+            t.left(60)
+            t.forward(80)
+            t.penup()
+            t.goto(50, 80)
+            t.pendown()
+            t.right(30)
+            t.forward(200)
+            t.right(30)
+            t.forward(80)
+            t.right(180)
+            t.forward(80)
+            t.right(120)
+            t.forward(80)
+
+        def chest():
+            t.pencolor("SaddleBrown")
+            t.penup()
+            t.goto(130, -80)
+            t.pendown()
+            t.fillcolor("SaddleBrown")
+            t.begin_fill()
+            t.forward(200)
+            t.right(90)
+            t.forward(110)
+            t.right(90)
+            t.forward(200)
+            t.right(90)
+            t.forward(110)
+            t.end_fill()
+
+            t.pencolor("gold")
+            t.width(4)
+            t.penup()
+            t.goto(130,-120)
+            t.pendown()
+            t.right(90)
+            t.forward(100)
+            t.circle(10)
+            t.forward(100)
+
+        def spider():
+            t.penup()
+            t.pencolor("black")
+            t.goto(-200, 250)
+            t.fillcolor("black")
+            t.begin_fill()
+            t.circle(15)
+            t.end_fill()
+            t.goto(-200, 245)
+            t.begin_fill()
+            t.circle(5)
+            t.end_fill()
+
+        def spider_legs():
+            t.width(1)
+            t.forward(40)
+            t.penup()
+            t.right(90)
+            t.forward(7)
+            t.pendown()
+            t.right(90)
+            t.forward(40)
+            t.penup()
+            t.left(90)
+            t.forward(7)
+            t.pendown()
+            t.left(90)
+            t.forward(40)
+            t.penup()
+            t.right(90)
+            t.forward(7)
+            t.pendown()
+            t.right(90)
+            t.forward(40)
+
+        skeleton()
+        t.penup()
+        t.home()
+        t.pendown()
+        chest()
+        spider()
+        t.penup()
+        t.goto(-220,275)
+        t.pendown()
+        spider_legs()
+
+        # finish
+        t.hideturtle()
+        turtle.done()
     c_int_description()
     c_int_map()
     c_int_menu()
@@ -683,6 +937,11 @@ def heirloomSword():
 def magicSword():
    print("This is a magical saber with a golden skull inlaid on the hilt."
          "It should solve your skeleton problem.")
+
+def treasureMap():
+    print("You uncover an old, weathered treasure map, its edges frayed and ink faded. "
+          "A winding path leads through the jungle, marked with cryptic symbols and a bold X,  the promise of hidden riches awaits.")
+
 
 def skeleton():
    print("You see five skeletons standing in front of you."
