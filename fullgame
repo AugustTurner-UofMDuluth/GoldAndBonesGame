@@ -18,7 +18,7 @@ def menu():
         print("5. View Map")
         print("6. Exit Game")
 
-        choice = int(input("Please press 1, 2, 3, 4, 5, or 6"))
+        choice = int(input("Please enter command: "))
 
         if choice == 1:
             instructions()
@@ -53,12 +53,14 @@ def load_game():
         with open(f"TreasureAndBonesSave{filename}.json", 'r') as fi:
             data = json.load(fi)
             setLoc({data['location']})
+            inventory = {data['inventory']}
     except FileNotFoundError:
         print("No existing save file found.")
 def save_game():
     filename = input("Please enter save file name").strip()
     with open(f"TreasureAndBonesSave{filename}.json", 'w') as fi:
-        data = {"location": loc}
+        data = {"location": loc, 
+                "inventory": inventory}
         json.dump(data, fi, indent=4)
 def view_map():
     print("Add me later") #TODO: Add map function
@@ -765,3 +767,5 @@ def fight():
 
    if skeletonhp <= 0:
        print("you have defeated the skeleton")
+
+menu()
