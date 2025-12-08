@@ -1,3 +1,4 @@
+import math
 import random
 import turtle
 import json
@@ -6,7 +7,7 @@ t = turtle.Turtle()
 #Game Code
 #game set up
 
-inventory ={"sword":"none","jewels":False,"necklace":False,"cave coin":False,"hut coin":False,"beach coin":False}
+inventory ={"sword":"none","jewels":False,"necklace":False,"cave coin":False,"hut coin":False,"beach coin":False, "treasure": False}
 
 score = 0
 loc = ""
@@ -200,6 +201,7 @@ def setLoc(dest):
 # item/room functions
 
 def ship():  # ship function
+    global loc
     loc = "ship"
     def ship_menu():
         print("Press 'z' for instructions. What would you like to do?")  # Gives user instuctions/guide just once
@@ -286,6 +288,7 @@ def ship():  # ship function
     ship_menu()
 
 def cave_entrance():
+    global  loc
     loc = "cavent"
     def c_entrance_menu():
         while True: #loops to keep asking user for input
@@ -406,7 +409,8 @@ def cave_entrance():
     c_entrance_menu()
 
 def cave_interior():
-    loc = "cave_interior"
+    global loc
+    loc = "cavint"
     def c_int_menu():
         global skeletonhp
         if skeletonhp > 0:
@@ -419,7 +423,9 @@ def cave_interior():
                     command = input("Take Golden Necklace?('y' or 'n')?".strip())
                     if command == "y": # if user takes item
                         inventory["necklace"] = True #adds to inventory
-                        print("-Golden Necklace- \n A dull and old sword covered in spider webs")
+                        print("-Golden Necklace-")
+                        score += 10
+                        print(f"Score = {score}") #displays user new score
                     else:
                         print("> I decide to leave the necklace.")# if no
                         break
@@ -430,7 +436,7 @@ def cave_interior():
                     if command == "y": # if yes
                         inventory["jewels"] == True # add to inventory
                         print("-Jewels- \n A box with shining jewels.")
-                        score += 25 #add coins to score
+                        score += 15 #add coins to score
                         print(f"Score = {score}") #displays user new score
                     else: #if no
                         print("> I decide to leave the chest.")
@@ -569,11 +575,23 @@ def cave_interior():
     c_int_menu()
 
 def north_beach():
+    global loc
+    loc = "nbeach"
     def nb_menu():
         while True: #loop to keep asking user for input
             command = input(">...".strip())
             if command == "s": #if user chooses to search
-                print("The treasure is right in front of you. Will you claim it? ")
+                if inventory["treasure"] == False: #checks if item isn't in inventory
+                    print("The treasure is right in front of you.")
+                    command = input("Take Treasure?('y' or 'n')?".strip())
+                    if command == "y": # if user takes item
+                        inventory["treasure"] = True #adds to inventory
+                        print("-Treasure- A big pile of gold coins.")
+                        score += 40
+                        print(f"Score = {score}") #displays user new score
+                    else:
+                        print("You decide to leave the treasure.")# if no
+                        break
             elif command == "w":  
                 newLoc = input("Do you want to go east or west?")
                 if newLoc == "east":
@@ -613,8 +631,13 @@ def north_beach():
         t.end_fill()
         t.hideturtle()
         t.done()
+    nb_map()
+    nb_description()
+    nb_menu()
 
 def south_beach():
+    global loc
+    loc = "sbeach"
     def sb_menu():
         while True: #loop to keep asking user for input
             command = input(">...".strip()) #user input
@@ -630,11 +653,25 @@ def south_beach():
                     else:
                         print("> I decide to leave the coins.")  #if they dont want coins
             elif command == "w":
-                west_jungle()  # next place to walk to
+                newLoc = input("Do you want to go west, north, east, or back on the ship?")
+                if newLoc == "west":
+                    setLoc("wjungle")
+                elif newLoc == "east":
+                    setLoc("cavent")
+                elif newLoc == "north":
+                    setLoc("nbeach")
+                elif newLoc == "ship":
+                    setLoc("ship")
+                else:
+                    print("You can't get there from here.")
             elif command == "z":
                 instructions()  #to open instructions
             elif command == "m":
                 map()  # to view map
+            elif command == 2:
+                save_game()
+            elif command == 3:
+                load_game()
             else:
                 print("Choose a valid command.")
 
@@ -740,35 +777,43 @@ def south_beach():
         t.write("Cave Entrance", align="center", font=("Arial", 14, "bold"))
 
         turtle.done()
+    sb_map()
+    sb_description()
+    sb_menu()
 
 
 def west_jungle():
+    global loc
+    loc = "wjungle"
     def w_jungle_menu():
         while True:
             command = input("> ...").strip().lower()
             if command == "s":  # Search area
                 print("You search through the thick vines and underbrush, but the jungle is dense and mysterious.")
-                print("It feels like something could be hidden here, but you can’t quite see it yet.")
+                print("It feels like something could be hidden here, but you can\’t quite see it yet.")
 
-            elif command == "w":  # Move forward (to clearing, for example)
-                print("You push through the vines toward a small clearing ahead.")
-                # clearing()  # connect to another location later
-                break
-
+            elif command == "w":  # Move to new location
+                newLoc = "Would you like to go to the clearing (clear), south, north, or east?"
+                if newLoc == "clear":
+                    print("You push through the vines toward a small clearing ahead.")
+                    setLoc("hut")
+                elif newLoc == "north":
+                    setLoc("nbeach")
+                elif newLoc == "south":
+                    setLoc("sbeach")
+                elif newLoc == "east":
+                    setLoc("cavent")
+                else:
+                    print("You can't get there from here.")
             elif command == "z":  # Instructions
-                print("Commands:")
-                print("s = search the area")
-                print("w = move forward")
-                print("m = view map")
-                print("q = quit area")
+                instructions()
 
             elif command == "m":  # Map
-                w_jungle_map()
-
-            elif command == "q":
-                print("You decide to leave the jungle for now.")
-                break
-
+                view_map()
+            elif command == 2:
+                save_game()
+            elif command == 3:
+                load_game()
             else:
                 print("Choose a valid command.")
 
@@ -840,8 +885,13 @@ def west_jungle():
 
         t.hideturtle()
         turtle.done()
+    w_jungle_map()
+    w_jungle_description()
+    w_jungle_menu()
 
 def jungle_hut():
+    global loc
+    loc = "hut"
     def HutMenu():
         while True:  # loop to keep asking user for input
             command = input(">...".strip())
@@ -852,13 +902,13 @@ def jungle_hut():
                     command = input("Collect sword? y/n").strip()  # do you take the sword?
                     if command == "y":
                         print("You walk over to the bed and carefully remove the sword from the body's arms.")
-                        newSword()
+                        magicSword()
                         inventory["sword"] == "magic"
                     else:
                         print("You decide to leave the sword.")
                 if inventory["hut coins"] == False:
                     print("Some rummaging through the clutter reveals a pouch of coins.")
-                    command = input("Collect coins? y/n").strip()  # do you take the ring?
+                    command = input("Collect coins? y/n").strip()  # do you take the coins?
                     if command == "y":
                         inventory["hut coins"] == True  # treasure check later
                         score += 5
@@ -867,18 +917,17 @@ def jungle_hut():
                         print("You leave the coins.")
                 else:
                     print("You already searched this area.")
-            elif command == "b":
-                west_jungle()
             elif command == "w":
-                cave_entrance()
+                print("You go back outside.")
+                setLoc("wjungle")
             elif command == "z":
-                print("Here are the instructions.")
-                print("b: Go back to the Western Jungle.")
-                print("s: Search the area for loot.")
-                print("w: Proceed to the next location.")
-                print("z: Viewing the instructions. Since you are reading this you know how to do this.")
+                instructions()
             elif command == "m":
-                map()
+                view_map()
+            elif command == 2:
+                save_game()
+            elif command == 3:
+                load_game()
             else:
                 print("Choose a valid command.")
 
@@ -1000,6 +1049,9 @@ def jungle_hut():
               "\nYou approach the hut, cautious of what enemies you might encounter."
               "The interior has a crude bed, table, and chair. Various items are scattered across the room."
               "\nEverything is covered in a thick layer of dust.")
+    HutDrawer()
+    HutDescriptor()
+    HutMenu()
 
 
 #item functions
