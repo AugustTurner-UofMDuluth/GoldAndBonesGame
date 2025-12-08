@@ -160,7 +160,7 @@ def ship():  # ship function
                 print("The sword from your long journey is leaned up against a wooden barrel. It will come in handy.")
                 command = input("Take or leave Heirloom Sword?('y' or 'n'?".strip())  # asks if player wants sword
                 if command == "y":  # if yes
-                    inventory["sword"] = heirloom  # adds sword to inventory
+                    inventory["sword"] = "heirloom"  # adds sword to inventory
                     print("-Heirloom Sword- \n A dull and old sword covered in spider webs")
                 else:  # no
                     print("> I decide to leave the sword.")
@@ -249,7 +249,7 @@ def cave_entrance():
                     print("> I have already searched through this area.")
 
             elif command == "w": #if walk
-                if inventory["sword'] == "magic": # checks if player has weapon needed for cave
+                if inventory["sword"] == "magic": # checks if player has weapon needed for cave
                     cave_interior()
                 else: #if not
                     print("You are facing a dark cave. \nSounds of rattling skeleton bones echo from within. \nYou shouldn't enter the cave without a better weapon.")
@@ -759,7 +759,7 @@ def jungle_hut():
         while True:  # loop to keep asking user for input
             command = input(">...".strip())
             if command == "s":  # if user chooses to search
-                if inventory["sword" != "magic":
+                if inventory["sword"] != "magic":
                     print("An old body rests upon the bed. Vivid red flowers cover its eyes,"
                           "and a fine sword rests in its hands.")
                     command = input("Collect sword? y/n").strip()  # do you take the sword?
