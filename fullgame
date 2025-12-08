@@ -1,3 +1,4 @@
+import random
 import turtle
 import json
 t = turtle.Turtle()
@@ -16,7 +17,7 @@ def menu():
     while True:
         print("---Game Title---")
         print("1. Instructions")
-        print("2. Play Game")
+        print("2. New Game")
         print("3. Load Game")
         print("4. Save Game")
         print("5. View Map")
@@ -27,7 +28,7 @@ def menu():
         if choice == 1:
             instructions()
         elif choice == 2:
-            play_game()
+            new_game()
         elif choice == 3:
             load_game()
         elif choice == 4:
@@ -43,7 +44,6 @@ def menu():
 def instructions():
     print("The goal of the game is to explore the island and collect all the treasure.")
     print("Here are the available commands")
-    print("1. Play/resume game.")
     print("2. Save game.")
     print("3. Load game.")
     print("m: View the map.")
@@ -63,6 +63,7 @@ def load_game():
             skelhp = {data["skelhp"]}
             skeletonhp = {data["totalskelhp"]}
             skelhep = {data["skelcount"]}
+        playing = True
     except FileNotFoundError:
         print("No existing save file found.")
 def save_game():
@@ -161,9 +162,12 @@ def view_map():
 
     turtle.done()
 
-def play_game():
+def new_game():
+    playing = True
     ship()
+
 def end_game():
+    playing = False
     catch = input("Would you like to save your progress? y/n").strip().lower()
     if catch == 'y':
         save_game()
@@ -176,6 +180,20 @@ def setLoc(dest):
     loc = dest
     if l =="ship":
         ship()
+    elif l == "sbeach":
+        south_beach()
+    elif l == "cavent":
+        cave_entrance
+    elif l == "cavint": 
+        cave_interior
+    elif l == "wjungle":
+        west_jungle()
+    elif l == "hut":
+        jungle_hut()
+    elif l == "nbeach":
+        north_beach()
+    else:
+        print("Invalid location")
 
 # item/room functions
 
@@ -194,11 +212,15 @@ def ship():  # ship function
                 else:  # no
                     print("> I decide to leave the sword.")
             elif command == "w":  # moves player off ship
-                south_beach()
+                setLoc("sbeach")
             elif command == "z":
                 instructions() # displays instructions
             elif command == "m":
                 map() # displays map
+            elif command == 2:
+                save_game()
+            elif command == 3:
+                load_game()
             else:
                 print("Choose a valid command.")  # if player chooses anything else
 
@@ -257,9 +279,12 @@ def ship():  # ship function
 
         t.hideturtle()
         turtle.done()
+    ship_map()
+    ship_description()
+    ship_menu()
 
 def cave_entrance():
-    loc = "cave_entrance"
+    loc = "cavent"
     def c_entrance_menu():
         while True: #loops to keep asking user for input
             command = input(">...".strip()) # user input
@@ -278,21 +303,33 @@ def cave_entrance():
                     print("> I have already searched through this area.")
 
             elif command == "w": #if walk
-                if "Magic Sword" in inventory: # checks if player has weapon needed for cave
-                    cave_interior()
-                else: #if not
-                    print("You are facing a dark cave. \nSounds of rattling skeleton bones echo from within. \nYou shouldn't enter the cave without a better weapon.")
-                    print("> Maybe I can find something in the jungle.")
-                    # west_jungle()
+                newloc = input("Do you want to go in the cave (cave), west, south, or north?")
+                if newloc == "cave":
+                    if "Magic Sword" in inventory: # checks if player has weapon needed for cave
+                        cave_interior
+                    else: #if not
+                        print("You shouldn't enter the cave without a better weapon.")
+                        print("> Maybe you can find something in the jungle.")
+                elif newloc == "west":
+                    setLoc("wjungle")
+                elif newloc == "south":
+                    setLoc("sbeach")
+                elif newloc == "north":
+                    setLoc("nbeach")
             elif command == "z":
                 instructions()  # displays instructions
             elif command == "m":
                 map()  # displays map
+            elif command == 2:
+                save_game()
+            elif command == 3:
+                load_game()
             else:
                 print("Choose a valid command.")
 
     def c_entrance_description():
-        print("You have entered a rockier section of jungle, with steep cliffs covered in vines.")
+        print("You have entered a rockier section of jungle, with steep cliffs covered in vines."
+        "\nYou are facing a dark cave. \nSounds of rattling skeleton bones echo from within.")
 
     def c_entrance_map(): # displays map
         t.speed(0)
@@ -362,10 +399,16 @@ def cave_entrance():
         t.end_fill()
         turtle.done()
 
+    c_entrance_map()
+    c_entrance_description()
+    c_entrance_menu()
+
 def cave_interior():
     loc = "cave_interior"
     def c_int_menu():
-        # skeleton/fight function
+        global skeletonhp
+        if skeletonhp > 0:
+            fight()
         while True: #loops to ask user for input
             command = input("> ...".strip())
             if command == "s": #if player chooses to search
@@ -385,7 +428,7 @@ def cave_interior():
                     if command == "y": # if yes
                         inventory.append("Jewels") # add to inventory
                         print("-Jewels- \n A box with shining jewels.")
-                        score += 40 #add coins to score
+                        score += 25 #add coins to score
                         print(f"Score = {score}") #displays user new score
                     else: #if no
                         print("> I decide to leave the chest.")
@@ -394,11 +437,15 @@ def cave_interior():
                     print("> I have already searched through this area.")
 
             elif command == "w":
-                cave_entrance() #exits cave
+                setLoc("cavent") #exits cave
             elif command == "z":
                 instructions()  #displays instructions
             elif command == "m":
                 map()  #displays map
+            elif command == 2:
+                save_game()
+            elif command == 3:
+                load_game()
             else:
                 print("Choose a valid command.")
 
@@ -524,15 +571,23 @@ def north_beach():
         while True: #loop to keep asking user for input
             command = input(">...".strip())
             if command == "s": #if user chooses to search
-                print("The treasure is right in front of you, but something is guarding it.")
-            elif command == "w":  #when player walks forward they have to fight the monster and the game ends
-                print("TODO: make final fight") #TODO: make final fight
-                #monster/fight function
-                #end game function
+                print("The treasure is right in front of you. Will you claim it? ")
+            elif command == "w":  
+                newLoc = input("Do you want to go east or west?")
+                if newLoc == "east":
+                    setLoc("cavent")
+                elif newLoc == "west":
+                    setLoc("wjungle")
+                else:
+                    print("You can't get there from here.")
             elif command == "z":
                 instructions()   #to view instructions
             elif command == "m":
                 map()    # to view map
+            elif command == 2:
+                save_game()
+            elif command == 3:
+                load_game()
             else:
                 print("Choose a valid command.")
 
@@ -1043,3 +1098,12 @@ def fight():
        print("you have defeated the skeleton")
 
 menu()
+while playing == True:
+    if score >= 100: 
+        playing = False
+        print("Congratulations! You Won!")
+        menu()
+    if playerhp <=0:
+        playing = False
+        print("GAME OVER")
+        menu()
