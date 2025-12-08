@@ -7,6 +7,10 @@ t = turtle.Turtle()
 inventory = {}
 score = 0
 loc = ""
+playerhp = 50
+skelhp=[10,10,10,10,10]
+skeletonhp=sum(skelhp)
+skelhep=[1,1,1,1,1]
 #menu function
 def menu():
     while True:
@@ -54,13 +58,24 @@ def load_game():
             data = json.load(fi)
             setLoc({data['location']})
             inventory = {data['inventory']}
+            score = {data['score']}
+            playerhp = {data["playerhp"]}
+            skelhp = {data["skelhp"]}
+            skeletonhp = {data["totalskelhp"]}
+            skelhep = {data["skelcount"]}
     except FileNotFoundError:
         print("No existing save file found.")
 def save_game():
     filename = input("Please enter save file name").strip()
     with open(f"TreasureAndBonesSave{filename}.json", 'w') as fi:
         data = {"location": loc, 
-                "inventory": inventory}
+                "inventory": inventory,
+                "score": score,
+                "playerhp": playerhp,
+                "skelhp" : skelhp,
+                "totalskelhp": skeletonhp,
+                "skelcount" : skelhep
+                }
         json.dump(data, fi, indent=4)
 def view_map():
     t.screen.bgcolor("lightblue")
@@ -963,10 +978,10 @@ def skeleton():
          "\nThere seems to be some magical force bringing them to life.")
 
 def fight():
-   playerhp=50
-   skelhp=[10,10,10,10,10]
-   skeletonhp=sum(skelhp)
-   skelhep=[1,1,1,1,1]
+   global playerhp
+   global skelhp
+   global skeletonhp
+   global skelhep
    attackdamage=5
    skeletondamage=1
    print("You engage the skeletons")
