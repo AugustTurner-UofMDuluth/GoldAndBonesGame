@@ -308,15 +308,13 @@ def cave_entrance():
                     print("> I have already searched through this area.")
 
             elif command == "w": #if walk
-                newloc = input("Do you want to go in the cave (cave), west, south, or north?")
+                newloc = input("Do you want to go in the cave (cave), south, or north?")
                 if newloc == "cave":
                     if inventory["sword"] == "magic": # checks if player has weapon needed for cave
                         cave_interior
                     else: #if not
                         print("You shouldn't enter the cave without a better weapon.")
                         print("> Maybe you can find something in the jungle.")
-                elif newloc == "west":
-                    setLoc("wjungle")
                 elif newloc == "south":
                     setLoc("sbeach")
                 elif newloc == "north":
@@ -593,13 +591,7 @@ def north_beach():
                         print("You decide to leave the treasure.")# if no
                         break
             elif command == "w":  
-                newLoc = input("Do you want to go east or west?")
-                if newLoc == "east":
-                    setLoc("cavent")
-                elif newLoc == "west":
-                    setLoc("wjungle")
-                else:
-                    print("You can't get there from here.")
+                setLoc("cavent")                
             elif command == "z":
                 instructions()   #to view instructions
             elif command == "m":
@@ -653,13 +645,11 @@ def south_beach():
                     else:
                         print("> I decide to leave the coins.")  #if they dont want coins
             elif command == "w":
-                newLoc = input("Do you want to go west, north, east, or back on the ship?")
+                newLoc = input("Do you want to go west, east, or back on the ship?")
                 if newLoc == "west":
                     setLoc("wjungle")
                 elif newLoc == "east":
                     setLoc("cavent")
-                elif newLoc == "north":
-                    setLoc("nbeach")
                 elif newLoc == "ship":
                     setLoc("ship")
                 else:
@@ -793,21 +783,16 @@ def west_jungle():
                 print("It feels like something could be hidden here, but you can\’t quite see it yet.")
 
             elif command == "w":  # Move to new location
-                newLoc = "Would you like to go to the clearing (clear), south, north, or east?"
+                newLoc = input("Would you like to go to the clearing (clear) or back to the beach (beach)?: ")
                 if newLoc == "clear":
                     print("You push through the vines toward a small clearing ahead.")
                     setLoc("hut")
-                elif newLoc == "north":
-                    setLoc("nbeach")
-                elif newLoc == "south":
+                elif newLoc == "beach":
                     setLoc("sbeach")
-                elif newLoc == "east":
-                    setLoc("cavent")
                 else:
                     print("You can't get there from here.")
             elif command == "z":  # Instructions
                 instructions()
-
             elif command == "m":  # Map
                 view_map()
             elif command == 2:
