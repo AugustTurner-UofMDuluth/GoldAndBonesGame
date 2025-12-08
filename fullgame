@@ -3,7 +3,7 @@ t = turtle.Turtle()
 
 #Game Code
 #game set up
-inventory = []
+inventory ={"sword":"none","jewels":False,"necklace":False,"cave coin":False,"hut coin":False,"beach coin":False}
 score = 0
 
 #menu function
@@ -160,7 +160,7 @@ def ship():  # ship function
                 print("The sword from your long journey is leaned up against a wooden barrel. It will come in handy.")
                 command = input("Take or leave Heirloom Sword?('y' or 'n'?".strip())  # asks if player wants sword
                 if command == "y":  # if yes
-                    inventory.append("Heirloom Sword")  # adds sword to inventory
+                    inventory["sword"] = heirloom  # adds sword to inventory
                     print("-Heirloom Sword- \n A dull and old sword covered in spider webs")
                 else:  # no
                     print("> I decide to leave the sword.")
@@ -235,11 +235,11 @@ def cave_entrance():
         while True: #loops to keep asking user for input
             command = input(">...".strip()) # user input
             if command == "s": #if search
-                if "Cave Entrance Coins" not in inventory: #checks if coins in area have been collected
+                if inventory["cave coins"] == False: #checks if coins in area have been collected
                     print("A few gold coins scatter the ground.") #description
                     command = input("Collect coins('y' or 'n')?".strip())  #asks user to collect items
                     if command == "y": #if yes
-                        inventory.append("Cave Entrance Coins.") #add coins to inventory
+                        inventory["cave coins"] == True #add coins to inventory
                         print("You picked up 10 coins.")
                         score += 10 #adds score
                         print(f"Score = {score}") #displays new score
@@ -249,7 +249,7 @@ def cave_entrance():
                     print("> I have already searched through this area.")
 
             elif command == "w": #if walk
-                if "Magic Sword" in inventory: # checks if player has weapon needed for cave
+                if inventory["sword'] == "magic": # checks if player has weapon needed for cave
                     cave_interior()
                 else: #if not
                     print("You are facing a dark cave. \nSounds of rattling skeleton bones echo from within. \nYou shouldn't enter the cave without a better weapon.")
@@ -339,21 +339,21 @@ def cave_interior():
         while True: #loops to ask user for input
             command = input("> ...".strip())
             if command == "s": #if player chooses to search
-                if "Golden Necklace" not in inventory: #checks if item isn't in inventory
+                if inventory["necklace"] == False: #checks if item isn't in inventory
                     print("The skeleton before you lies still. \nA beautiful necklace glistens under the torchlight.")
                     command = input("Take Golden Necklace?('y' or 'n')?".strip())
                     if command == "y": # if user takes item
-                        inventory.append("Golden Necklace") #adds to inventory
+                        inventory["necklace"] = True #adds to inventory
                         print("-Golden Necklace- \n A dull and old sword covered in spider webs")
                     else:
                         print("> I decide to leave the necklace.")# if no
                         break
-                elif "Golden Necklace" in inventory and "Jewels" not in inventory: #checks if user has necklace already but not jewels
+                elif inventory["necklace"] == True and inventory["jewels"] == False: #checks if user has necklace already but not jewels
                     print(
                         "A box of jewels and gold coins sit at the back of the cave. The skeletons were guarding it. ")
                     command = input("Take items?('y' or 'n')?".strip())
                     if command == "y": # if yes
-                        inventory.append("Jewels") # add to inventory
+                        inventory["jewels"] == True # add to inventory
                         print("-Jewels- \n A box with shining jewels.")
                         score += 40 #add coins to score
                         print(f"Score = {score}") #displays user new score
@@ -532,11 +532,11 @@ def south_beach():
         while True: #loop to keep asking user for input
             command = input(">...".strip()) #user input
             if command == "s": #if user chooses to search
-                if "South Beach Coins" not in  inventory: # checks if player has been in the area
+                if inventory["beach coins"] == False: # checks if player has been in the area
                     print("Gold coins shimmer in the sunlight, slightly covered by sand.") #prints description
                     command = input("Collect Gold Coins?('y' or 'n'?".strip())#asks player if they want to collect item
                     if command == "y": #if yes
-                        inventory.append("South Beach Coins") #adds coins of the area to inventory to check later
+                        inventory["beach coins"] == True #adds coins of the area to inventory to check later
                         print("-Gold Coin- \nA shiny coin, with some sort of emblem on the front. ")
                         score += 20  #adds coins to score
                         print(f"Score = {score}")  #tells player new score
@@ -759,21 +759,21 @@ def jungle_hut():
         while True:  # loop to keep asking user for input
             command = input(">...".strip())
             if command == "s":  # if user chooses to search
-                if "Magic Sword" not in inventory:
+                if inventory["sword" != "magic":
                     print("An old body rests upon the bed. Vivid red flowers cover its eyes,"
                           "and a fine sword rests in its hands.")
                     command = input("Collect sword? y/n").strip()  # do you take the sword?
                     if command == "y":
                         print("You walk over to the bed and carefully remove the sword from the body's arms.")
                         newSword()
-                        inventory.append("Magic Sword")
+                        inventory["sword"] == "magic"
                     else:
                         print("You decide to leave the sword.")
-                if "Jungle Hut Coins" not in inventory:
+                if inventory["hut coins"] == False:
                     print("Some rummaging through the clutter reveals a pouch of coins.")
                     command = input("Collect coins? y/n").strip()  # do you take the ring?
                     if command == "y":
-                        inventory.append("Jungle Hut Coins")  # treasure check later
+                        inventory["hut coins"] == True  # treasure check later
                         score += 5
                         print(f'Score = {score}')
                     else:
