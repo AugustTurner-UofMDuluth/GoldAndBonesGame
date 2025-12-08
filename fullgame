@@ -4,6 +4,8 @@ import turtle
 import json
 
 t = turtle.Turtle()
+screen = turtle.Screen()
+
 
 # Game Code
 # game set up
@@ -93,6 +95,7 @@ def save_game():
 
 
 def view_map():
+    turtle.clearscreen()
     t.screen.bgcolor("lightblue")
     t.speed(0)
     t.pencolor("cornsilk")
@@ -252,8 +255,8 @@ def ship():  # ship function
               "Your ship is beaten and battered; it won't make it much longer. Your sails are weathered, and the ropes are fraying. This will be the ship’s last destination.")
 
     def ship_map():  # displays map
+        turtle.clearscreen()
         t.speed(0)
-
         # Draw the hull
         t.color("saddlebrown")
         t.begin_fill()
@@ -356,6 +359,7 @@ def cave_entrance():
               "\nYou are facing a dark cave. \nSounds of rattling skeleton bones echo from within.")
 
     def c_entrance_map():  # displays map
+        turtle.clearscreen()
         t.speed(0)
         t.screen.bgcolor("darkgray")
         t.penup()
@@ -484,7 +488,7 @@ def cave_interior():
             "You enter the cave and the darkness is overwhelming. \nYou light the torch you found from the hut and soon realize the sword you picked up will come in handy. \nSkeletons stand before you, swords in hand.")
 
     def c_int_map():  # displays cave interior map
-        screen = turtle.Screen()
+        turtle.clearscreen()
         screen.title("Dark Cave Interior")
         t.speed(0)
         t.screen.bgcolor("gray20")
@@ -638,7 +642,7 @@ def north_beach():
               "In front of you, there is a lonely tree, just like the one on the treasure map. ")
 
     def nb_map():  # displays north beach map
-
+        turtle.clearscreen()
         t.speed(0)
         t.color("forestgreen")
         t.begin_fill()
@@ -702,6 +706,8 @@ def south_beach():
             "You stumble onto the island from your ship, taking in your surroundings. \nThe beach is bright and sandy. There is a lush green jungle in front of you. \nTo your right, you see a small mountain. \nTo your left, a path curves deep into the jungle.")
 
     def sb_map():  # displays south beach map
+        turtle.clearscreen()
+        t.speed(0)
         # ocean
         t.penup()
         t.goto(-300, 250)
@@ -761,33 +767,38 @@ def south_beach():
         t.forward(150)
         t.end_fill()
         # trees
+        def tree(turt):
+            turt.fillcolor("green")
+            turt.begin_fill()
+            turt.circle(4)
+            turt.end_fill()
         t.penup()
         t.goto(-150, -250)
-        tree()
+        tree(t)
         t.goto(200, -260)
-        tree()
+        tree(t)
         t.goto(300, -240)
-        tree()
+        tree(t)
         t.goto(300, 60)
-        tree()
+        tree(t)
         t.goto(270, -100)
-        tree()
+        tree(t)
         t.goto(0, -230)
-        tree()
+        tree(t)
         t.goto(50, -250)
-        tree()
+        tree(t)
         t.goto(120, -230)
-        tree()
+        tree(t)
         t.goto(180, -195)
-        tree()
+        tree(t)
         t.goto(243, -207)
-        tree()
+        tree(t)
         t.goto(220, -145)
-        tree()
+        tree(t)
         t.goto(75, -190)
-        tree()
+        tree(t)
         t.goto(135, -150)
-        tree()
+        tree(t)
 
         # print labels
         t.color("black")
@@ -843,10 +854,9 @@ def west_jungle():
 
     def w_jungle_map():
         # Setup
-        screen = turtle.Screen()
+        turtle.clearscreen()
         screen.title("West Jungle Map")
-        t = turtle.Turtle()
-        t.speed(3)
+        t.speed(0)
 
         # Room parameters
         room_width = 400
@@ -955,9 +965,8 @@ def jungle_hut():
                 print("Choose a valid command.")
 
     def HutDrawer():  # I didn't know if I could keep the file separate
-        screen = turtle.Screen()
-        screen.setup(400, 400)
-
+        turtle.clearscreen()
+        t.speed(0)
         def jump(o, x, y):
             o.penup()
             o.goto(x, y)
@@ -1028,7 +1037,7 @@ def jungle_hut():
                 res = "ForestGreen"
             return res
 
-        t = turtle.Turtle()
+        
         jump(t, -200, -200)
         rect(t, 400, 134, True, "OliveDrab4")
         jump(t, -200, -66)
