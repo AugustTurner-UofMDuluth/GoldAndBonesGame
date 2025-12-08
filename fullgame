@@ -2,20 +2,24 @@ import math
 import random
 import turtle
 import json
+
 t = turtle.Turtle()
 
-#Game Code
-#game set up
-
-inventory ={"sword":"none","jewels":False,"necklace":False,"cave coin":False,"hut coin":False,"beach coin":False, "treasure": False}
+# Game Code
+# game set up
+playing = False
+inventory = {"sword": "none", "jewels": False, "necklace": False, "cave coin": False, "hut coin": False,
+             "beach coin": False, "treasure": False}
 
 score = 0
 loc = ""
 playerhp = 50
-skelhp=[10,10,10,10,10]
-skeletonhp=sum(skelhp)
-skelhep=[1,1,1,1,1]
-#menu function
+skelhp = [10, 10, 10, 10, 10]
+skeletonhp = sum(skelhp)
+skelhep = [1, 1, 1, 1, 1]
+
+
+# menu function
 def menu():
     while True:
         print("---Game Title---")
@@ -44,6 +48,7 @@ def menu():
         else:
             print("Choose a valid number")
 
+
 def instructions():
     print("The goal of the game is to explore the island and collect all the treasure.")
     print("Here are the available commands")
@@ -54,6 +59,8 @@ def instructions():
     print("w: Walk to another location.")
     print("z: View the instructions again.")
     print("0: Exit game.")
+
+
 def load_game():
     filename = input("Please enter save file name").strip()
     try:
@@ -69,23 +76,27 @@ def load_game():
         playing = True
     except FileNotFoundError:
         print("No existing save file found.")
+
+
 def save_game():
     filename = input("Please enter save file name").strip()
     with open(f"TreasureAndBonesSave{filename}.json", 'w') as fi:
-        data = {"location": loc, 
+        data = {"location": loc,
                 "inventory": inventory,
                 "score": score,
                 "playerhp": playerhp,
-                "skelhp" : skelhp,
+                "skelhp": skelhp,
                 "totalskelhp": skeletonhp,
-                "skelcount" : skelhep
+                "skelcount": skelhep
                 }
         json.dump(data, fi, indent=4)
+
+
 def view_map():
     t.screen.bgcolor("lightblue")
     t.speed(0)
     t.pencolor("cornsilk")
-    t.goto(0,-230)
+    t.goto(0, -230)
     t.fillcolor("cornsilk")
 
     t.begin_fill()
@@ -103,14 +114,13 @@ def view_map():
     t.pendown()
     t.fillcolor("brown")
     t.begin_fill()
-    for _ in range (2):
+    for _ in range(2):
         t.forward(30)
         t.right(90)
         t.forward(60)
         t.right(90)
     t.end_fill()
     t.write("Ship", font=("Arial", 9, "normal"))
-
 
     t.penup()
     t.goto(-100, -110)
@@ -163,32 +173,37 @@ def view_map():
     t.pendown()
     t.write("South Beach", font=("Arial", 12, "bold"))
 
-    turtle.done()
+    
+
 
 def new_game():
+    global playing
     playing = True
     ship()
 
+
 def end_game():
+    global playing
     playing = False
     catch = input("Would you like to save your progress? y/n").strip().lower()
     if catch == 'y':
         save_game()
     quit()
-    
-#Location functions
+
+
+# Location functions
 def setLoc(dest):
     l = dest
-    global loc 
+    global loc
     loc = dest
-    if l =="ship":
+    if l == "ship":
         ship()
     elif l == "sbeach":
         south_beach()
     elif l == "cavent":
-        cave_entrance
-    elif l == "cavint": 
-        cave_interior
+        cave_entrance()
+    elif l == "cavint":
+        cave_interior()
     elif l == "wjungle":
         west_jungle()
     elif l == "hut":
@@ -198,11 +213,13 @@ def setLoc(dest):
     else:
         print("Invalid location")
 
+
 # item/room functions
 
 def ship():  # ship function
     global loc
     loc = "ship"
+
     def ship_menu():
         print("Press 'z' for instructions. What would you like to do?")  # Gives user instuctions/guide just once
         while True:  # loops to keep asking user for input
@@ -218,9 +235,9 @@ def ship():  # ship function
             elif command == "w":  # moves player off ship
                 setLoc("sbeach")
             elif command == "z":
-                instructions() # displays instructions
+                instructions()  # displays instructions
             elif command == "m":
-                map() # displays map
+                view_map()  # displays map
             elif command == 2:
                 save_game()
             elif command == 3:
@@ -282,37 +299,41 @@ def ship():  # ship function
         t.end_fill()
 
         t.hideturtle()
-        turtle.done()
+        #
+
     ship_map()
     ship_description()
     ship_menu()
 
+
 def cave_entrance():
-    global  loc
+    global loc
     loc = "cavent"
+
     def c_entrance_menu():
-        while True: #loops to keep asking user for input
-            command = input(">...".strip()) # user input
-            if command == "s": #if search
-                if inventory["cave coins"] == False: #checks if coins in area have been collected
-                    print("A few gold coins scatter the ground.") #description
-                    command = input("Collect coins('y' or 'n')?".strip())  #asks user to collect items
-                    if command == "y": #if yes
-                        inventory["cave coins"] == True #add coins to inventory
+        global score
+        while True:  # loops to keep asking user for input
+            command = input(">...".strip())  # user input
+            if command == "s":  # if search
+                if inventory["cave coin"] == False:  # checks if coins in area have been collected
+                    print("A few gold coins scatter the ground.")  # description
+                    command = input("Collect coins('y' or 'n')?".strip())  # asks user to collect items
+                    if command == "y":  # if yes
+                        inventory["cave coin"] = True  # add coins to inventory
                         print("You picked up 10 coins.")
-                        score += 10 #adds score
-                        print(f"Score = {score}") #displays new score
-                    else: #if no
+                        score += 10  # adds score
+                        print(f"Score = {score}")  # displays new score
+                    else:  # if no
                         print("> I decide to leave the coins.")
-                else:# if coins have been collected
+                else:  # if coins have been collected
                     print("> I have already searched through this area.")
 
-            elif command == "w": #if walk
+            elif command == "w":  # if walk
                 newloc = input("Do you want to go in the cave (cave), south, or north?")
                 if newloc == "cave":
-                    if inventory["sword"] == "magic": # checks if player has weapon needed for cave
-                        cave_interior
-                    else: #if not
+                    if inventory["sword"] == "magic":  # checks if player has weapon needed for cave
+                        setLoc("cavint")
+                    else:  # if not
                         print("You shouldn't enter the cave without a better weapon.")
                         print("> Maybe you can find something in the jungle.")
                 elif newloc == "south":
@@ -322,7 +343,7 @@ def cave_entrance():
             elif command == "z":
                 instructions()  # displays instructions
             elif command == "m":
-                map()  # displays map
+                view_map()  # displays map
             elif command == 2:
                 save_game()
             elif command == 3:
@@ -332,9 +353,9 @@ def cave_entrance():
 
     def c_entrance_description():
         print("You have entered a rockier section of jungle, with steep cliffs covered in vines."
-        "\nYou are facing a dark cave. \nSounds of rattling skeleton bones echo from within.")
+              "\nYou are facing a dark cave. \nSounds of rattling skeleton bones echo from within.")
 
-    def c_entrance_map(): # displays map
+    def c_entrance_map():  # displays map
         t.speed(0)
         t.screen.bgcolor("darkgray")
         t.penup()
@@ -354,7 +375,7 @@ def cave_entrance():
         t.goto(375, 0)
         t.fillcolor("darkgreen")
         t.begin_fill()
-        t.right(90)    
+        t.right(90)
         t.forward(375)
         t.right(90)
         t.forward(755)
@@ -386,7 +407,6 @@ def cave_entrance():
         t.goto(295, -10)
         small_bush()
 
-
         t.home()
         t.pencolor("black")
         t.fillcolor("sienna")
@@ -400,54 +420,58 @@ def cave_entrance():
         t.forward(370)
         t.goto(100, 0)
         t.end_fill()
-        turtle.done()
 
     c_entrance_map()
     c_entrance_description()
     c_entrance_menu()
 
+
 def cave_interior():
     global loc
     loc = "cavint"
+    
+
     def c_int_menu():
         global skeletonhp
+        global score
         if skeletonhp > 0:
             fight()
-        while True: #loops to ask user for input
+        while True:  # loops to ask user for input
             command = input("> ...".strip())
-            if command == "s": #if player chooses to search
-                if inventory["necklace"] == False: #checks if item isn't in inventory
+            if command == "s":  # if player chooses to search
+                if inventory["necklace"] == False:  # checks if item isn't in inventory
                     print("The skeleton before you lies still. \nA beautiful necklace glistens under the torchlight.")
                     command = input("Take Golden Necklace?('y' or 'n')?".strip())
-                    if command == "y": # if user takes item
-                        inventory["necklace"] = True #adds to inventory
+                    if command == "y":  # if user takes item
+                        inventory["necklace"] = True  # adds to inventory
                         print("-Golden Necklace-")
                         score += 10
-                        print(f"Score = {score}") #displays user new score
+                        print(f"Score = {score}")  # displays user new score
                     else:
-                        print("> I decide to leave the necklace.")# if no
+                        print("> I decide to leave the necklace.")  # if no
                         break
-                elif inventory["necklace"] == True and inventory["jewels"] == False: #checks if user has necklace already but not jewels
+                elif inventory["necklace"] == True and inventory[
+                    "jewels"] == False:  # checks if user has necklace already but not jewels
                     print(
                         "A box of jewels and gold coins sit at the back of the cave. The skeletons were guarding it. ")
                     command = input("Take items?('y' or 'n')?".strip())
-                    if command == "y": # if yes
-                        inventory["jewels"] == True # add to inventory
+                    if command == "y":  # if yes
+                        inventory["jewels"] = True  # add to inventory
                         print("-Jewels- \n A box with shining jewels.")
-                        score += 15 #add coins to score
-                        print(f"Score = {score}") #displays user new score
-                    else: #if no
+                        score += 15  # add coins to score
+                        print(f"Score = {score}")  # displays user new score
+                    else:  # if no
                         print("> I decide to leave the chest.")
                         break
-                else: #if player has both items
+                else:  # if player has both items
                     print("> I have already searched through this area.")
 
             elif command == "w":
-                setLoc("cavent") #exits cave
+                setLoc("cavent")  # exits cave
             elif command == "z":
-                instructions()  #displays instructions
+                instructions()  # displays instructions
             elif command == "m":
-                map()  #displays map
+                view_map()  # displays map
             elif command == 2:
                 save_game()
             elif command == 3:
@@ -456,9 +480,10 @@ def cave_interior():
                 print("Choose a valid command.")
 
     def c_int_description():
-        print("You enter the cave and the darkness is overwhelming. \nYou light the torch you found from the hut and soon realize the sword you picked up will come in handy. \nSkeletons stand before you, swords in hand.")
+        print(
+            "You enter the cave and the darkness is overwhelming. \nYou light the torch you found from the hut and soon realize the sword you picked up will come in handy. \nSkeletons stand before you, swords in hand.")
 
-    def c_int_map(): #displays cave interior map
+    def c_int_map():  # displays cave interior map
         screen = turtle.Screen()
         screen.title("Dark Cave Interior")
         t.speed(0)
@@ -477,7 +502,7 @@ def cave_interior():
             t.right(30)
             t.forward(80)
             t.penup()
-            t.goto(50,80)
+            t.goto(50, 80)
             t.pendown()
             t.left(60)
             t.forward(80)
@@ -512,7 +537,7 @@ def cave_interior():
             t.pencolor("gold")
             t.width(4)
             t.penup()
-            t.goto(130,-120)
+            t.goto(130, -120)
             t.pendown()
             t.right(90)
             t.forward(100)
@@ -561,41 +586,45 @@ def cave_interior():
         chest()
         spider()
         t.penup()
-        t.goto(-220,275)
+        t.goto(-220, 275)
         t.pendown()
         spider_legs()
 
         # finish
         t.hideturtle()
-        turtle.done()
+        
+
     c_int_description()
     c_int_map()
     c_int_menu()
 
+
 def north_beach():
     global loc
     loc = "nbeach"
+
     def nb_menu():
-        while True: #loop to keep asking user for input
+        global score
+        while True:  # loop to keep asking user for input
             command = input(">...".strip())
-            if command == "s": #if user chooses to search
-                if inventory["treasure"] == False: #checks if item isn't in inventory
+            if command == "s":  # if user chooses to search
+                if inventory["treasure"] == False:  # checks if item isn't in inventory
                     print("The treasure is right in front of you.")
                     command = input("Take Treasure?('y' or 'n')?".strip())
-                    if command == "y": # if user takes item
-                        inventory["treasure"] = True #adds to inventory
+                    if command == "y":  # if user takes item
+                        inventory["treasure"] = True  # adds to inventory
                         print("-Treasure- A big pile of gold coins.")
                         score += 40
-                        print(f"Score = {score}") #displays user new score
+                        print(f"Score = {score}")  # displays user new score
                     else:
-                        print("You decide to leave the treasure.")# if no
+                        print("You decide to leave the treasure.")  # if no
                         break
-            elif command == "w":  
-                setLoc("cavent")                
+            elif command == "w":
+                setLoc("cavent")
             elif command == "z":
-                instructions()   #to view instructions
+                instructions()  # to view instructions
             elif command == "m":
-                map()    # to view map
+                view_map()  # to view map
             elif command == 2:
                 save_game()
             elif command == 3:
@@ -609,8 +638,6 @@ def north_beach():
               "In front of you, there is a lonely tree, just like the one on the treasure map. ")
 
     def nb_map():  # displays north beach map
-        import turtle as t
-        import random
 
         t.speed(0)
         t.color("forestgreen")
@@ -622,42 +649,47 @@ def north_beach():
 
         t.end_fill()
         t.hideturtle()
-        t.done()
+        
+
     nb_map()
     nb_description()
     nb_menu()
 
+
 def south_beach():
     global loc
     loc = "sbeach"
+
     def sb_menu():
-        while True: #loop to keep asking user for input
-            command = input(">...".strip()) #user input
-            if command == "s": #if user chooses to search
-                if inventory["beach coins"] == False: # checks if player has been in the area
-                    print("Gold coins shimmer in the sunlight, slightly covered by sand.") #prints description
-                    command = input("Collect Gold Coins?('y' or 'n'?".strip())#asks player if they want to collect item
-                    if command == "y": #if yes
-                        inventory["beach coins"] == True #adds coins of the area to inventory to check later
+        global score
+        while True:  # loop to keep asking user for input
+            command = input(">...".strip())  # user input
+            if command == "s":  # if user chooses to search
+                if inventory["beach coins"] == False:  # checks if player has been in the area
+                    print("Gold coins shimmer in the sunlight, slightly covered by sand.")  # prints description
+                    command = input(
+                        "Collect Gold Coins?('y' or 'n'?".strip())  # asks player if they want to collect item
+                    if command == "y":  # if yes
+                        inventory["beach coins"] = True  # adds coins of the area to inventory to check later
                         print("-Gold Coin- \nA shiny coin, with some sort of emblem on the front. ")
-                        score += 20  #adds coins to score
-                        print(f"Score = {score}")  #tells player new score
+                        score += 20  # adds coins to score
+                        print(f"Score = {score}")  # tells player new score
                     else:
-                        print("> I decide to leave the coins.")  #if they dont want coins
+                        print("> I decide to leave the coins.")  # if they dont want coins
             elif command == "w":
-                newLoc = input("Do you want to go west, east, or back on the ship?")
-                if newLoc == "west":
+                newloc = input("Do you want to go west, east, or back on the ship?")
+                if newloc == "west":
                     setLoc("wjungle")
-                elif newLoc == "east":
+                elif newloc == "east":
                     setLoc("cavent")
-                elif newLoc == "ship":
+                elif newloc == "ship":
                     setLoc("ship")
                 else:
                     print("You can't get there from here.")
             elif command == "z":
-                instructions()  #to open instructions
+                instructions()  # to open instructions
             elif command == "m":
-                map()  # to view map
+                view_map()  # to view map
             elif command == 2:
                 save_game()
             elif command == 3:
@@ -669,7 +701,7 @@ def south_beach():
         print(
             "You stumble onto the island from your ship, taking in your surroundings. \nThe beach is bright and sandy. There is a lush green jungle in front of you. \nTo your right, you see a small mountain. \nTo your left, a path curves deep into the jungle.")
 
-    def sb_map(): #displays south beach map
+    def sb_map():  # displays south beach map
         # ocean
         t.penup()
         t.goto(-300, 250)
@@ -766,7 +798,8 @@ def south_beach():
         t.goto(-200, -100)
         t.write("Cave Entrance", align="center", font=("Arial", 14, "bold"))
 
-        turtle.done()
+        
+
     sb_map()
     sb_description()
     sb_menu()
@@ -775,6 +808,7 @@ def south_beach():
 def west_jungle():
     global loc
     loc = "wjungle"
+
     def w_jungle_menu():
         while True:
             command = input("> ...").strip().lower()
@@ -869,15 +903,19 @@ def west_jungle():
             t.end_fill()
 
         t.hideturtle()
-        turtle.done()
+        
+
     w_jungle_map()
     w_jungle_description()
     w_jungle_menu()
 
+
 def jungle_hut():
     global loc
     loc = "hut"
+
     def HutMenu():
+        global score
         while True:  # loop to keep asking user for input
             command = input(">...".strip())
             if command == "s":  # if user chooses to search
@@ -888,14 +926,14 @@ def jungle_hut():
                     if command == "y":
                         print("You walk over to the bed and carefully remove the sword from the body's arms.")
                         magicSword()
-                        inventory["sword"] == "magic"
+                        inventory["sword"] = "magic"
                     else:
                         print("You decide to leave the sword.")
                 if inventory["hut coins"] == False:
                     print("Some rummaging through the clutter reveals a pouch of coins.")
                     command = input("Collect coins? y/n").strip()  # do you take the coins?
                     if command == "y":
-                        inventory["hut coins"] == True  # treasure check later
+                        inventory["hut coins"] = True  # treasure check later
                         score += 5
                         print(f'Score = {score}')
                     else:
@@ -1027,26 +1065,29 @@ def jungle_hut():
         t.right(90)
         t.forward(85)
         t.end_fill()
-        turtle.done()
+        
 
     def HutDescriptor():
         print("You reach the clearing and see a run-down hut in the distance. "
               "\nYou approach the hut, cautious of what enemies you might encounter."
               "The interior has a crude bed, table, and chair. Various items are scattered across the room."
               "\nEverything is covered in a thick layer of dust.")
+
     HutDrawer()
     HutDescriptor()
     HutMenu()
 
 
-#item functions
+# item functions
 def goldCoin():
     print("A shiny gold coin lies half-buried in the dirt. "
           "It gleams even in the dim jungle light — maybe it’s part of a hidden treasure.")
 
+
 def jewels():
     print("You find a cluster of glittering jewels tangled in the vines. "
           "They shimmer in every color — ruby red, emerald green, sapphire blue.")
+
 
 def goldenNecklace():
     print("Hanging from a low branch is a golden necklace, "
@@ -1054,13 +1095,15 @@ def goldenNecklace():
 
 
 def heirloomSword():
-   print("This is an heirloom sword, passed down in your family for generations. "
-         "While still a fine cutting tool, it cannot do much against the supernatural.")
-       #TODO: Combat and Cutting
+    print("This is an heirloom sword, passed down in your family for generations. "
+          "While still a fine cutting tool, it cannot do much against the supernatural.")
+    # TODO: Combat and Cutting
+
 
 def magicSword():
-   print("This is a magical saber with a golden skull inlaid on the hilt."
-         "It should solve your skeleton problem.")
+    print("This is a magical saber with a golden skull inlaid on the hilt."
+          "It should solve your skeleton problem.")
+
 
 def treasureMap():
     print("You uncover an old, weathered treasure map, its edges frayed and ink faded. "
@@ -1068,81 +1111,81 @@ def treasureMap():
 
 
 def skeleton():
-   print("You see five skeletons standing in front of you."
-         "\nThere seems to be some magical force bringing them to life.")
+    print("You see five skeletons standing in front of you."
+          "\nThere seems to be some magical force bringing them to life.")
+
 
 def fight():
-   global playerhp
-   global skelhp
-   global skeletonhp
-   global skelhep
-   attackdamage=5
-   skeletondamage=1
-   print("You engage the skeletons")
-   play=1
-   while skeletonhp > 0 and playerhp > 0:
-       if play==1:
-           action = input("what will you do?:")
-           if action == "attack":
-               print("you attempt to attack the skeletons")
-               skelnum=int(input("Which skeleton would you like to attack?(1,2,3,4,5):"))-1
-               if skelhp[skelnum]<=0:
-                   print("You cannot attack a dead skeleton")
-               else:
-                   chance=random.randint(1,20)
-                   if chance > 5:
-                       skelhp[skelnum]=skelhp[skelnum]-attackdamage
-                       skelhep=[ item for item in skelhp if item !=0]
-                       print("You attacked the skeleton")
-                       print(skelhp)
-                       play=2
-                   else:
-                       print("You missed.")
-                       play=2
+    global playerhp
+    global skelhp
+    global skeletonhp
+    global skelhep
+    attackdamage = 5
+    skeletondamage = 1
+    print("You engage the skeletons")
+    play = 1
+    while skeletonhp > 0 and playerhp > 0:
+        if play == 1:
+            action = input("what will you do?:")
+            if action == "attack":
+                print("you attempt to attack the skeletons")
+                skelnum = int(input("Which skeleton would you like to attack?(1,2,3,4,5):")) - 1
+                if skelhp[skelnum] <= 0:
+                    print("You cannot attack a dead skeleton")
+                else:
+                    chance = random.randint(1, 20)
+                    if chance > 5:
+                        skelhp[skelnum] = skelhp[skelnum] - attackdamage
+                        skelhep = [item for item in skelhp if item != 0]
+                        print("You attacked the skeleton")
+                        print(skelhp)
+                        play = 2
+                    else:
+                        print("You missed.")
+                        play = 2
 
 
-           elif action == "defend":
-               print("you attempt to block the skeletons attack")
-               chance = random.randint(1, 20)
-               if chance > 2:
-                   print("you blocked the attack")
-               else:
-                   print("you failed to block the attack")
-                   playerhp = playerhp - skeletondamage
-           elif action == "flee":
-               print("you attempt to flee")
-               chance = random.randint(1, 20)
-               if chance >= 10:
-                   print("you escaped the skeleton")
-               else:
-                   print("The skeleton prevents you from escaping")
-                   play=2
-           else:
-               print("action invalid: repeat input")
-       elif play==2:
-           for i in skelhep:
-               skelchance=random.randint(0,1)
-               if skelchance == 1:
-                   print("A skeleton attacks you")
-                   playerhp = playerhp - skeletondamage
-           print(playerhp)
-           play=1
+            elif action == "defend":
+                print("you attempt to block the skeletons attack")
+                chance = random.randint(1, 20)
+                if chance > 2:
+                    print("you blocked the attack")
+                else:
+                    print("you failed to block the attack")
+                    playerhp = playerhp - skeletondamage
+            elif action == "flee":
+                print("you attempt to flee")
+                chance = random.randint(1, 20)
+                if chance >= 10:
+                    print("you escaped the skeleton")
+                else:
+                    print("The skeleton prevents you from escaping")
+                    play = 2
+            else:
+                print("action invalid: repeat input")
+        elif play == 2:
+            for i in skelhep:
+                skelchance = random.randint(0, 1)
+                if skelchance == 1:
+                    print("A skeleton attacks you")
+                    playerhp = playerhp - skeletondamage
+            print(playerhp)
+            play = 1
 
+    if playerhp <= 0:
+        print("You have been killed by the skeletons")
 
-   if playerhp <= 0:
-       print("You have been killed by the skeletons")
+    if skeletonhp <= 0:
+        print("you have defeated the skeleton")
 
-
-   if skeletonhp <= 0:
-       print("you have defeated the skeleton")
 
 menu()
 while playing == True:
-    if score >= 100: 
+    if score >= 100:
         playing = False
         print("Congratulations! You Won!")
         menu()
-    if playerhp <=0:
+    if playerhp <= 0:
         playing = False
         print("GAME OVER")
         menu()
